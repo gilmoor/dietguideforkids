@@ -17,6 +17,7 @@ public class gui extends javax.swing.JFrame {
      * Creates new form gui
      */
     public gui() {
+        int conflit ;
         this.setResizable(false); 
         initComponents();
         
