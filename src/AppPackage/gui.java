@@ -91,7 +91,7 @@ public class gui extends javax.swing.JFrame {
         });
         getContentPane().add(id, new org.netbeans.lib.awtextra.AbsoluteConstraints(110, 176, 160, 20));
 
-        pwd.setText("ramzi");
+        pwd.setText("akram");
         pwd.setBorder(null);
         getContentPane().add(pwd, new org.netbeans.lib.awtextra.AbsoluteConstraints(110, 223, 160, 20));
 
