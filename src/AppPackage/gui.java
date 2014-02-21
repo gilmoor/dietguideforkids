@@ -4,8 +4,16 @@
  */
 package AppPackage;
 
+import edu.esprit.entities.Administrateur;
+import edu.esprit.util.Connexion;
 import java.awt.Dimension;
 import java.awt.Toolkit;
+import java.sql.Connection;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
+import javax.swing.JFrame;
+import javax.swing.JOptionPane;
 
 /**
  *
@@ -17,23 +25,24 @@ public class gui extends javax.swing.JFrame {
      * Creates new form gui
      */
     public gui() {
-        int conflit ;
-        this.setResizable(false); 
+
+        this.setResizable(false);
         initComponents();
-        
+
         // Get the size of the screen
-         Dimension dim = Toolkit.getDefaultToolkit().getScreenSize();
+        Dimension dim = Toolkit.getDefaultToolkit().getScreenSize();
         // Determine the new location of the window
         int w = this.getSize().width;
         int h = this.getSize().height;
-        int x = (dim.width-w)/2;
-        int y = (dim.height-h)/2;
+        int x = (dim.width - w) / 2;
+        int y = (dim.height - h) / 2;
 
         // Move the window
         this.setLocation(x, y);
-        
-    }
 
+
+
+    }
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -46,10 +55,10 @@ public class gui extends javax.swing.JFrame {
 
         jTextField2 = new javax.swing.JTextField();
         jButton1 = new javax.swing.JButton();
-        jButton2 = new javax.swing.JButton();
+        ok = new javax.swing.JButton();
         id = new javax.swing.JTextField();
-        pwd = new javax.swing.JTextField();
-        jLabel2 = new javax.swing.JLabel();
+        pwd = new javax.swing.JPasswordField();
+        bg = new javax.swing.JLabel();
 
         jTextField2.setText("jTextField2");
 
@@ -75,14 +84,24 @@ public class gui extends javax.swing.JFrame {
         jButton1.setBorder(null);
         jButton1.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
         jButton1.setPressedIcon(new javax.swing.ImageIcon(getClass().getResource("/AppPackage/button_cliclk.png"))); // NOI18N
+        jButton1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton1ActionPerformed(evt);
+            }
+        });
         getContentPane().add(jButton1, new org.netbeans.lib.awtextra.AbsoluteConstraints(50, 300, 90, 40));
 
-        jButton2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/AppPackage/button.png"))); // NOI18N
-        jButton2.setText("Se connecter");
-        jButton2.setBorder(null);
-        jButton2.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
-        jButton2.setPressedIcon(new javax.swing.ImageIcon(getClass().getResource("/AppPackage/button_cliclk.png"))); // NOI18N
-        getContentPane().add(jButton2, new org.netbeans.lib.awtextra.AbsoluteConstraints(160, 300, 90, -1));
+        ok.setIcon(new javax.swing.ImageIcon(getClass().getResource("/AppPackage/button.png"))); // NOI18N
+        ok.setText("Se connecter");
+        ok.setBorder(null);
+        ok.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+        ok.setPressedIcon(new javax.swing.ImageIcon(getClass().getResource("/AppPackage/button_cliclk.png"))); // NOI18N
+        ok.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                okActionPerformed(evt);
+            }
+        });
+        getContentPane().add(ok, new org.netbeans.lib.awtextra.AbsoluteConstraints(160, 300, 90, -1));
 
         id.setBorder(null);
         id.addActionListener(new java.awt.event.ActionListener() {
@@ -92,16 +111,15 @@ public class gui extends javax.swing.JFrame {
         });
         getContentPane().add(id, new org.netbeans.lib.awtextra.AbsoluteConstraints(110, 176, 160, 20));
 
-        pwd.setText("akram");
         pwd.setBorder(null);
-        getContentPane().add(pwd, new org.netbeans.lib.awtextra.AbsoluteConstraints(110, 223, 160, 20));
+        getContentPane().add(pwd, new org.netbeans.lib.awtextra.AbsoluteConstraints(111, 223, 160, 20));
 
-        jLabel2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/AppPackage/bg.png"))); // NOI18N
-        jLabel2.setFocusable(false);
-        jLabel2.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
-        jLabel2.setName("Connexion"); // NOI18N
-        getContentPane().add(jLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, -1, 360));
-        jLabel2.getAccessibleContext().setAccessibleName("Connexion");
+        bg.setIcon(new javax.swing.ImageIcon(getClass().getResource("/AppPackage/bg.png"))); // NOI18N
+        bg.setFocusable(false);
+        bg.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+        bg.setName("Connexion"); // NOI18N
+        getContentPane().add(bg, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, -1, 360));
+        bg.getAccessibleContext().setAccessibleName("Connexion");
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
@@ -112,13 +130,53 @@ public class gui extends javax.swing.JFrame {
 
     private void formWindowActivated(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowActivated
         // TODO add your handling code here:
-
     }//GEN-LAST:event_formWindowActivated
 
     private void formWindowOpened(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowOpened
         // TODO add your handling code here:
-       
     }//GEN-LAST:event_formWindowOpened
+
+    private void okActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_okActionPerformed
+        // TODO add your handling code here:
+        String identfiant = id.getText();
+        String pass = pwd.getText();
+        Administrateur admin = new Administrateur();
+        if (identfiant.equals("") || pass.equals("")) {
+            JOptionPane.showMessageDialog(new JFrame(), "Saisir tous les champs", "Warning", JOptionPane.WARNING_MESSAGE);
+
+        } else {
+            try {
+                String req = "select nom_util,prenom_util from utilisateur util,administrateur ad where util.id_util=ad.id_ad and ad.id_ad='" + identfiant + "' and util.pwd_util='" + pass + "' and type_util=1";
+                Statement st = Connexion.getInstance().createStatement();
+                ResultSet resultat = st.executeQuery(req);
+
+                int i = 0;
+                while (resultat.next()) {
+                    admin.setNom_util(resultat.getString(1));
+                    admin.setPrenom_util(resultat.getString(2));
+                    i++;
+                }
+
+                if (i == 0) {
+                    JOptionPane.showMessageDialog(new JFrame(), "L'identifiant ou le mot de passe est incorrecte", "Warning", JOptionPane.WARNING_MESSAGE);
+                } else {
+                    new EspaceAdmin().setVisible(true);
+                    this.setVisible(false);
+
+                }
+
+            } catch (SQLException ex) {
+            }
+        }
+
+    }//GEN-LAST:event_okActionPerformed
+
+    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+        // TODO add your handling code here:
+        pwd.setText("");
+        id.setText("");
+  
+    }//GEN-LAST:event_jButton1ActionPerformed
 
     /**
      * @param args the command line arguments
@@ -150,23 +208,21 @@ public class gui extends javax.swing.JFrame {
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                try{
+                try {
                     Thread.sleep(2000);
+                } catch (Exception e) {
                 }
-                catch(Exception e)
-                {
-                }
-                
+
                 new gui().setVisible(true);
             }
         });
     }
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JLabel bg;
     private javax.swing.JTextField id;
     private javax.swing.JButton jButton1;
-    private javax.swing.JButton jButton2;
-    private javax.swing.JLabel jLabel2;
     private javax.swing.JTextField jTextField2;
-    private javax.swing.JTextField pwd;
+    private javax.swing.JButton ok;
+    private javax.swing.JPasswordField pwd;
     // End of variables declaration//GEN-END:variables
 }
