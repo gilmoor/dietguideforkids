@@ -1,12 +1,15 @@
 package edu.esprit.entities;
 
+import java.util.Date;
+
 public class Utilisateur {
 
     private String id_util;
     private String nom_util;
     private String prenom_util;
     private String pwd_util;
-    private int type_util;
+    private int etat_util;
+    private Date date_desactivation;
 
     public Utilisateur() {
     }
@@ -16,12 +19,29 @@ public class Utilisateur {
         this.nom_util = nom_util;
         this.prenom_util = prenom_util;
         this.pwd_util = pwd_util;
-        this.type_util = type_util;
+        this.etat_util = type_util;
 
     }
 
+    public String getId_util() {
+        return id_util;
+    }
+
+    public void setId_util(String id_util) {
+        this.id_util = id_util;
+    }
+    
+
     public String getNom_util() {
         return nom_util;
+    }
+
+    public Date getDate_desactivation() {
+        return date_desactivation;
+    }
+
+    public void setDate_desactivation(Date date_desactivation) {
+        this.date_desactivation = date_desactivation;
     }
 
     public void setNom_util(String nom_util) {
@@ -44,12 +64,12 @@ public class Utilisateur {
         this.pwd_util = pwd_util;
     }
 
-    public int getType_util() {
-        return type_util;
+    public int getEtat_util() {
+        return etat_util;
     }
 
-    public void setType_util(int type_util) {
-        this.type_util = type_util;
+    public void setEtat_util(int etat_util) {
+        this.etat_util = etat_util;
     }
 
     @Override
@@ -57,10 +77,7 @@ public class Utilisateur {
         return "Utilisateur{" + "Nom=" + nom_util + ", Prenom=" + prenom_util + "}";
     }
 
-    public String getId() {
-        return this.id_util;
-
-    }
+   
 
     @Override
     public boolean equals(Object obj) {

@@ -11,6 +11,10 @@ package edu.esprit.entities;
 public class Parent extends Utilisateur {
 
     private String id_par;
+    
+    
+    
+    public Parent(){}
 
     public Parent(String id_par, String nom_par, String prenom_par, String pwd_par, int type_par) {
 
@@ -19,12 +23,7 @@ public class Parent extends Utilisateur {
     }
 
 
-    @Override
-    public String getId() {
-
-        return this.id_par;
-
-    }
+    
 
     @Override
     public boolean equals(Object obj) {

@@ -22,11 +22,7 @@ public class Administrateur extends Utilisateur {
     }
 
     
-    @Override
-     public String getId() {
-        return this.id_ad;
-
-    }
+   
 
     @Override
     public boolean equals(Object obj) {

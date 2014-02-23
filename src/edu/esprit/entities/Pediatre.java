@@ -3,17 +3,15 @@ package edu.esprit.entities;
 public class Pediatre extends Utilisateur {
 
     private String id_ped;
+    
+    public Pediatre(){}
 
     public Pediatre(String id_ped, String nom_ped, String prenom_ped, String pwd_ped, int type_ped) {
 
         this.id_ped = id_ped;
     }
 
-    @Override
-    public String getId() {
-        return this.id_ped;
-
-    }
+   
 
     @Override
     public boolean equals(Object obj) {

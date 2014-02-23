@@ -4,6 +4,7 @@
  */
 package AppPackage;
 
+import edu.esprit.dao.DAOAuthentification;
 import edu.esprit.entities.Administrateur;
 import edu.esprit.util.Connexion;
 import java.awt.Dimension;
@@ -91,6 +92,7 @@ public class gui extends javax.swing.JFrame {
         });
         getContentPane().add(jButton1, new org.netbeans.lib.awtextra.AbsoluteConstraints(50, 300, 90, 40));
 
+        ok.setBackground(new java.awt.Color(255, 200, 0));
         ok.setIcon(new javax.swing.ImageIcon(getClass().getResource("/AppPackage/button.png"))); // NOI18N
         ok.setText("Se connecter");
         ok.setBorder(null);
@@ -101,7 +103,7 @@ public class gui extends javax.swing.JFrame {
                 okActionPerformed(evt);
             }
         });
-        getContentPane().add(ok, new org.netbeans.lib.awtextra.AbsoluteConstraints(160, 300, 90, -1));
+        getContentPane().add(ok, new org.netbeans.lib.awtextra.AbsoluteConstraints(160, 300, 90, 40));
 
         id.setBorder(null);
         id.addActionListener(new java.awt.event.ActionListener() {
@@ -140,34 +142,8 @@ public class gui extends javax.swing.JFrame {
         // TODO add your handling code here:
         String identfiant = id.getText();
         String pass = pwd.getText();
-        Administrateur admin = new Administrateur();
-        if (identfiant.equals("") || pass.equals("")) {
-            JOptionPane.showMessageDialog(new JFrame(), "Saisir tous les champs", "Warning", JOptionPane.WARNING_MESSAGE);
-
-        } else {
-            try {
-                String req = "select nom_util,prenom_util from utilisateur util,administrateur ad where util.id_util=ad.id_ad and ad.id_ad='" + identfiant + "' and util.pwd_util='" + pass + "' and type_util=1";
-                Statement st = Connexion.getInstance().createStatement();
-                ResultSet resultat = st.executeQuery(req);
-
-                int i = 0;
-                while (resultat.next()) {
-                    admin.setNom_util(resultat.getString(1));
-                    admin.setPrenom_util(resultat.getString(2));
-                    i++;
-                }
-
-                if (i == 0) {
-                    JOptionPane.showMessageDialog(new JFrame(), "L'identifiant ou le mot de passe est incorrecte", "Warning", JOptionPane.WARNING_MESSAGE);
-                } else {
-                    new EspaceAdmin().setVisible(true);
-                    this.setVisible(false);
-
-                }
-
-            } catch (SQLException ex) {
-            }
-        }
+        DAOAuthentification auth= new DAOAuthentification();
+        auth.verifier(this, identfiant, pass);
 
     }//GEN-LAST:event_okActionPerformed
 
