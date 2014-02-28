@@ -67,6 +67,7 @@ public class EspaceAdmin extends javax.swing.JFrame {
         bg = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setTitle("Diet Guide For Kids");
         setMinimumSize(new java.awt.Dimension(827, 490));
         setResizable(false);
         getContentPane().setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
@@ -86,6 +87,11 @@ public class EspaceAdmin extends javax.swing.JFrame {
 
         message.setIcon(new javax.swing.ImageIcon(getClass().getResource("/AppPackage/message.png"))); // NOI18N
         message.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        message.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                messageMouseClicked(evt);
+            }
+        });
         getContentPane().add(message, new org.netbeans.lib.awtextra.AbsoluteConstraints(740, 12, -1, -1));
 
         jTabbedPane1.setFont(new java.awt.Font("Arial Black", 0, 10)); // NOI18N
@@ -128,12 +134,14 @@ public class EspaceAdmin extends javax.swing.JFrame {
         jTabbedPane2.setToolTipText("");
 
         jPanel4.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
+        jPanel4.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
         jTabbedPane2.addTab("Modifier état comptes", jPanel4);
 
         jPanel3.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
         jPanel3.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
         P3id.setModel(new javax.swing.DefaultComboBoxModel(new String[] {"-------------Choisir Utilisateur-------------"}));
+        P3id.setAutoscrolls(true);
         P3id.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 P3idMouseClicked(evt);
@@ -144,7 +152,7 @@ public class EspaceAdmin extends javax.swing.JFrame {
                 P3idActionPerformed(evt);
             }
         });
-        jPanel3.add(P3id, new org.netbeans.lib.awtextra.AbsoluteConstraints(220, 60, 240, -1));
+        jPanel3.add(P3id, new org.netbeans.lib.awtextra.AbsoluteConstraints(220, 50, 240, -1));
 
         buttonGroup1.add(P3Parent);
         P3Parent.setText("Parent");
@@ -166,12 +174,12 @@ public class EspaceAdmin extends javax.swing.JFrame {
 
         P3nom.setText("Nom");
         P3nom.setEnabled(false);
-        P3nom.setPreferredSize(new java.awt.Dimension(27, 25));
-        jPanel3.add(P3nom, new org.netbeans.lib.awtextra.AbsoluteConstraints(220, 100, 150, -1));
+        P3nom.setPreferredSize(new java.awt.Dimension(27, 30));
+        jPanel3.add(P3nom, new org.netbeans.lib.awtextra.AbsoluteConstraints(220, 90, 150, -1));
 
         P3prenom.setText("Prénom");
         P3prenom.setEnabled(false);
-        P3prenom.setPreferredSize(new java.awt.Dimension(27, 25));
+        P3prenom.setPreferredSize(new java.awt.Dimension(27, 30));
         jPanel3.add(P3prenom, new org.netbeans.lib.awtextra.AbsoluteConstraints(220, 130, 150, -1));
 
         date.setText("Désactiver Le :");
@@ -260,6 +268,13 @@ public class EspaceAdmin extends javax.swing.JFrame {
         dao.SupprimerUtilisateur(P3Parent, P3Pediatre, P3id);
     }//GEN-LAST:event_P3supprimerActionPerformed
 
+    private void messageMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_messageMouseClicked
+           
+        ConfirmationInscriptionPediatre c= new ConfirmationInscriptionPediatre();
+        c.setVisible(true);
+        
+    }//GEN-LAST:event_messageMouseClicked
+
     /**
      * @param args the command line arguments
      */
@@ -291,6 +306,7 @@ public class EspaceAdmin extends javax.swing.JFrame {
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
                 new EspaceAdmin().setVisible(true);
+                
             }
         });
     }

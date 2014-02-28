@@ -3,12 +3,21 @@ package edu.esprit.entities;
 public class Pediatre extends Utilisateur {
 
     private String id_ped;
+    private byte[] imagedata ;
     
     public Pediatre(){}
 
     public Pediatre(String id_ped, String nom_ped, String prenom_ped, String pwd_ped, int type_ped) {
 
         this.id_ped = id_ped;
+    }
+
+    public byte[] getImagedata() {
+        return imagedata;
+    }
+
+    public void setImagedata(byte[] imagedata) {
+        this.imagedata = imagedata;
     }
 
    
