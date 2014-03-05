@@ -7,10 +7,13 @@ package AppPackage;
 import edu.esprit.dao.DAOConfirmerCompte;
 import edu.esprit.util.Connexion;
 import java.awt.Dimension;
+import java.awt.Frame;
 import java.awt.Toolkit;
 import java.sql.ResultSet;
 import java.sql.Statement;
+import java.util.Date;
 import javax.swing.ImageIcon;
+import javax.swing.JOptionPane;
 import javax.swing.JScrollPane;
 
 /**
@@ -23,10 +26,10 @@ public class ConfirmationInscriptionPediatre extends javax.swing.JFrame {
      * Creates new form ConfirmationInscriptionPediatre
      */
     public ConfirmationInscriptionPediatre() {
-      
+
 
         initComponents();
-       
+
         Dimension dim = Toolkit.getDefaultToolkit().getScreenSize();
         // Determine the new location of the window
         int w = this.getSize().width;
@@ -70,7 +73,7 @@ public class ConfirmationInscriptionPediatre extends javax.swing.JFrame {
         });
         getContentPane().setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
-        id.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Choisir un pédiatre" }));
+        id.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "--------Choisir Utilisateur---------" }));
         id.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 idActionPerformed(evt);
@@ -131,39 +134,86 @@ public class ConfirmationInscriptionPediatre extends javax.swing.JFrame {
     private void formWindowOpened(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowOpened
 
         DAOConfirmerCompte dao = new DAOConfirmerCompte();
-        dao.AfficherListPediatre(dao.GetListPediatre(), id);
+        id.removeAllItems();
+        id.addItem("--------Choisir Utilisateur---------");
+        for (int i = 0; i < dao.GetListPediatre().size(); i++) {
+
+            id.addItem(dao.GetListPediatre().get(i).getId_util());
+        }
     }//GEN-LAST:event_formWindowOpened
 
     private void idActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_idActionPerformed
         DAOConfirmerCompte dao = new DAOConfirmerCompte();
-        dao.AfficherInfoPediatre(id, nom, prenom, date, image);
+        try {
+            Object ident = id.getSelectedItem();
+            if (id.getSelectedIndex() == 0) {
+                nom.setText("Nom");
+                prenom.setText("Prénom");
+                date.setText("Date d'inscription");
+                image.setIcon(null);
+            } else {
+                nom.setText(dao.AfficherInfoPediatre(ident).getNom_util());
+                prenom.setText(dao.AfficherInfoPediatre(ident).getPrenom_util());
+                Date d = dao.AfficherInfoPediatre(ident).getDate_desactivation();
+                date.setText("" + d);
+                imagedata = dao.AfficherInfoPediatre(ident).getImagedata();
+                format = new ImageIcon(imagedata);
+                image.setIcon(format);
+            }
+        } catch (Exception e) {
+            e.getStackTrace();
+        }
     }//GEN-LAST:event_idActionPerformed
 
     private void confirmerActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_confirmerActionPerformed
 
+        if(id.getSelectedIndex()==0)
+        {
+          JOptionPane.showMessageDialog(new Frame(),"Sélectionner un Utilisateur");
+
+        }
+        else
+        {
+         
         DAOConfirmerCompte dao = new DAOConfirmerCompte();
-        dao.AjouterPediatre(id);
-        dao.AfficherListPediatre(dao.GetListPediatre(), id);
-        nom.setText("Nom");
-        prenom.setText("Prénom");
-        date.setText("Date d'inscription");
-        image.setIcon(null);
+        dao.AjouterPediatre(id.getSelectedItem());
+        id.removeAllItems();
+        id.addItem("--------Choisir Utilisateur---------");
+        for (int i = 0; i < dao.GetListPediatre().size(); i++) {
+
+            id.addItem(dao.GetListPediatre().get(i).getId_util());
+        }
+        JOptionPane.showMessageDialog(new Frame(),"L'utilisateur a été ajouté avec succè");
+        
+        }
+        
     }//GEN-LAST:event_confirmerActionPerformed
 
     private void annulerActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_annulerActionPerformed
 
+         if(id.getSelectedIndex()==0)
+        {
+          JOptionPane.showMessageDialog(new Frame(),"Sélectionner un Utilisateur");
+
+        }
+        else
+        {
+         
         DAOConfirmerCompte dao = new DAOConfirmerCompte();
-        dao.SupprimerPediatre(id);
-        dao.AfficherListPediatre(dao.GetListPediatre(), id);
-        nom.setText("Nom");
-        prenom.setText("Prénom");
-        date.setText("Date d'inscription");
-        image.setIcon(null);
+        dao.SupprimerPediatre(id.getSelectedItem());
+        id.removeAllItems();
+        id.addItem("--------Choisir Utilisateur---------");
+        for (int i = 0; i < dao.GetListPediatre().size(); i++) {
+
+            id.addItem(dao.GetListPediatre().get(i).getId_util());
+        }
+            JOptionPane.showMessageDialog(new Frame(), "L'utilisateur a été supprimé avec succè");
+        
+        }
 
     }//GEN-LAST:event_annulerActionPerformed
 
     private void formWindowClosing(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowClosing
-
     }//GEN-LAST:event_formWindowClosing
 
     /**
@@ -197,7 +247,7 @@ public class ConfirmationInscriptionPediatre extends javax.swing.JFrame {
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
                 new ConfirmationInscriptionPediatre().setVisible(true);
-              
+
             }
         });
     }
@@ -213,4 +263,5 @@ public class ConfirmationInscriptionPediatre extends javax.swing.JFrame {
     private javax.swing.JTextField prenom;
     // End of variables declaration//GEN-END:variables
     private ImageIcon format = null;
+    private byte[] imagedata;
 }

@@ -1,24 +1,22 @@
 /*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
+ * To change this template, choose Tools | Templates
  * and open the template in the editor.
  */
-
 package edu.esprit.entities;
 
 /**
  *
- * @author MOHAMED
+ * @author AvBack
  */
 public class Composition {
-    private int id_composition;
-    private int lipide;
+    
+    private int id_composition ;
+    private int lipide ;
     private int glucide;
     private int proteine;
-    
-    public Composition()
-    {
-        
+    private Modele_Aliment id_aliment;
+
+    public Composition() {
     }
 
     public int getId_composition() {
@@ -53,10 +51,18 @@ public class Composition {
         this.proteine = proteine;
     }
 
+    public Modele_Aliment getId_aliment() {
+        return id_aliment;
+    }
+
+    public void setId_aliment(Modele_Aliment id_aliment) {
+        this.id_aliment = id_aliment;
+    }
+
     @Override
     public int hashCode() {
         int hash = 7;
-        hash = 59 * hash + this.id_composition;
+        hash = 67 * hash + this.id_composition;
         return hash;
     }
 
@@ -77,8 +83,8 @@ public class Composition {
 
     @Override
     public String toString() {
-        return "Composition{" + "id_composition=" + id_composition + ", lipide=" + lipide + ", glucide=" + glucide + ", proteine=" + proteine + '}';
+        return "Composition{" + "id_composition=" + id_composition + ", lipide=" + lipide + ", glucide=" + glucide + ", proteine=" + proteine + ", id_aliment=" + id_aliment + '}';
     }
-            
+    
+    
 }
-

@@ -1,31 +1,27 @@
 /*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
+ * To change this template, choose Tools | Templates
  * and open the template in the editor.
  */
-
 package edu.esprit.entities;
 
 import java.util.Objects;
 
 /**
  *
- * @author MOHAMED
+ * @author AvBack
  */
-public class Modele_menu_journalier_categorie {
-    private Modele_menu_journalier id_modele;
+public class Categorie_Modele_Menu {
+    
+    private Modele_Menu id_modele;
     private Categorie id_categorie;
     
-    public Modele_menu_journalier_categorie()
-    {
-        
-    }
+    public Categorie_Modele_Menu(){}
 
-    public Modele_menu_journalier getId_modele() {
+    public Modele_Menu getId_modele() {
         return id_modele;
     }
 
-    public void setId_modele(Modele_menu_journalier id_modele) {
+    public void setId_modele(Modele_Menu id_modele) {
         this.id_modele = id_modele;
     }
 
@@ -37,12 +33,12 @@ public class Modele_menu_journalier_categorie {
         this.id_categorie = id_categorie;
     }
 
- 
-
+    
     @Override
     public int hashCode() {
-        int hash = 3;
+        int hash = 7;
         hash = 97 * hash + Objects.hashCode(this.id_modele);
+        hash = 97 * hash + Objects.hashCode(this.id_categorie);
         return hash;
     }
 
@@ -54,8 +50,11 @@ public class Modele_menu_journalier_categorie {
         if (getClass() != obj.getClass()) {
             return false;
         }
-        final Modele_menu_journalier_categorie other = (Modele_menu_journalier_categorie) obj;
+        final Categorie_Modele_Menu other = (Categorie_Modele_Menu) obj;
         if (!Objects.equals(this.id_modele, other.id_modele)) {
+            return false;
+        }
+        if (!Objects.equals(this.id_categorie, other.id_categorie)) {
             return false;
         }
         return true;
@@ -63,7 +62,9 @@ public class Modele_menu_journalier_categorie {
 
     @Override
     public String toString() {
-        return "Modele_menu_journalier_categorie{" + "id_modele=" + id_modele + ", id_categorie=" + id_categorie + '}';
+        return "Categorie_Modele_Menu{" + "id_modele=" + id_modele + ", id_categorie=" + id_categorie + '}';
     }
+    
+    
     
 }

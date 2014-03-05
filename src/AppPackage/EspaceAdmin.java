@@ -4,12 +4,22 @@
  */
 package AppPackage;
 
+import edu.esprit.dao.DAOAjoutermodele;
 import edu.esprit.dao.DAOAuthentification;
 import edu.esprit.dao.DAOSupprimerCompte;
+import edu.esprit.dao.DAOSupprimerModele;
+import edu.esprit.entities.Composition;
+import edu.esprit.entities.GroupeObjet;
+import edu.esprit.entities.Modele_Aliment;
+import edu.esprit.entities.Utilisateur;
 import java.awt.Dimension;
 import java.awt.Toolkit;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
+import javax.swing.table.DefaultTableModel;
 
 /**
  *
@@ -56,7 +66,7 @@ public class EspaceAdmin extends javax.swing.JFrame {
         jTabbedPane2 = new javax.swing.JTabbedPane();
         jPanel4 = new javax.swing.JPanel();
         jPanel3 = new javax.swing.JPanel();
-        P3id = new javax.swing.JComboBox();
+        P3id_util = new javax.swing.JComboBox();
         P3Parent = new javax.swing.JRadioButton();
         P3Pediatre = new javax.swing.JRadioButton();
         P3nom = new javax.swing.JTextField();
@@ -64,12 +74,44 @@ public class EspaceAdmin extends javax.swing.JFrame {
         date = new javax.swing.JLabel();
         P3supprimer = new javax.swing.JButton();
         P3desactiver = new javax.swing.JLabel();
+        jPanel5 = new javax.swing.JPanel();
+        jTabbedPane3 = new javax.swing.JTabbedPane();
+        jPanel7 = new javax.swing.JPanel();
+        P7combo = new javax.swing.JComboBox();
+        jScrollPane1 = new javax.swing.JScrollPane();
+        P7tableau = new javax.swing.JTable();
+        P7supprimer = new javax.swing.JButton();
+        jPanel6 = new javax.swing.JPanel();
+        jLabel3 = new javax.swing.JLabel();
+        P6tranche = new javax.swing.JComboBox();
+        Comborepas = new javax.swing.JComboBox();
+        jLabel4 = new javax.swing.JLabel();
+        jLabel5 = new javax.swing.JLabel();
+        jButton1 = new javax.swing.JButton();
+        jButton2 = new javax.swing.JButton();
+        jLabel6 = new javax.swing.JLabel();
+        jLabel7 = new javax.swing.JLabel();
+        jLabel8 = new javax.swing.JLabel();
+        jLabel9 = new javax.swing.JLabel();
+        jLabel11 = new javax.swing.JLabel();
+        jLabel12 = new javax.swing.JLabel();
+        calorie = new javax.swing.JTextField();
+        alimentnom = new javax.swing.JTextField();
+        poids = new javax.swing.JTextField();
+        lipide = new javax.swing.JTextField();
+        glucide = new javax.swing.JTextField();
+        proteine = new javax.swing.JTextField();
         bg = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("Diet Guide For Kids");
         setMinimumSize(new java.awt.Dimension(827, 490));
         setResizable(false);
+        addWindowListener(new java.awt.event.WindowAdapter() {
+            public void windowOpened(java.awt.event.WindowEvent evt) {
+                formWindowOpened(evt);
+            }
+        });
         getContentPane().setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
         out.setIcon(new javax.swing.ImageIcon(getClass().getResource("/AppPackage/power.png"))); // NOI18N
@@ -140,19 +182,19 @@ public class EspaceAdmin extends javax.swing.JFrame {
         jPanel3.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
         jPanel3.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
-        P3id.setModel(new javax.swing.DefaultComboBoxModel(new String[] {"-------------Choisir Utilisateur-------------"}));
-        P3id.setAutoscrolls(true);
-        P3id.addMouseListener(new java.awt.event.MouseAdapter() {
+        P3id_util.setModel(new javax.swing.DefaultComboBoxModel(new String[] {"-------------Choisir Utilisateur-------------"}));
+        P3id_util.setAutoscrolls(true);
+        P3id_util.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
-                P3idMouseClicked(evt);
+                P3id_utilMouseClicked(evt);
             }
         });
-        P3id.addActionListener(new java.awt.event.ActionListener() {
+        P3id_util.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                P3idActionPerformed(evt);
+                P3id_utilActionPerformed(evt);
             }
         });
-        jPanel3.add(P3id, new org.netbeans.lib.awtextra.AbsoluteConstraints(220, 50, 240, -1));
+        jPanel3.add(P3id_util, new org.netbeans.lib.awtextra.AbsoluteConstraints(220, 50, 240, -1));
 
         buttonGroup1.add(P3Parent);
         P3Parent.setText("Parent");
@@ -172,13 +214,13 @@ public class EspaceAdmin extends javax.swing.JFrame {
         });
         jPanel3.add(P3Pediatre, new org.netbeans.lib.awtextra.AbsoluteConstraints(280, 20, -1, -1));
 
+        P3nom.setEditable(false);
         P3nom.setText("Nom");
-        P3nom.setEnabled(false);
         P3nom.setPreferredSize(new java.awt.Dimension(27, 30));
         jPanel3.add(P3nom, new org.netbeans.lib.awtextra.AbsoluteConstraints(220, 90, 150, -1));
 
+        P3prenom.setEditable(false);
         P3prenom.setText("Prénom");
-        P3prenom.setEnabled(false);
         P3prenom.setPreferredSize(new java.awt.Dimension(27, 30));
         jPanel3.add(P3prenom, new org.netbeans.lib.awtextra.AbsoluteConstraints(220, 130, 150, -1));
 
@@ -210,6 +252,130 @@ public class EspaceAdmin extends javax.swing.JFrame {
 
         jTabbedPane1.addTab("Gérer comptes utilisateurs", jPanel2);
 
+        jPanel5.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+
+        jTabbedPane3.setTabPlacement(javax.swing.JTabbedPane.LEFT);
+        jTabbedPane3.setPreferredSize(new java.awt.Dimension(585, 285));
+
+        jPanel7.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
+        jPanel7.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+
+        P7combo.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Choisir Catégorie" }));
+        P7combo.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                P7comboActionPerformed(evt);
+            }
+        });
+        jPanel7.add(P7combo, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 20, 220, -1));
+
+        P7tableau.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null}
+            },
+            new String [] {
+                "Id Modèle", "Nom Repas", "Nom Aliment", "Poids", "Calorie", "Lipide", "Glucide", "Proteine"
+            }
+        ));
+        P7tableau.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                P7tableauMouseClicked(evt);
+            }
+        });
+        jScrollPane1.setViewportView(P7tableau);
+
+        jPanel7.add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 60, 610, 170));
+
+        P7supprimer.setBackground(new java.awt.Color(255, 200, 0));
+        P7supprimer.setIcon(new javax.swing.ImageIcon(getClass().getResource("/AppPackage/button.png"))); // NOI18N
+        P7supprimer.setText("Supprimer");
+        P7supprimer.setBorder(null);
+        P7supprimer.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+        P7supprimer.setPressedIcon(new javax.swing.ImageIcon(getClass().getResource("/AppPackage/button_cliclk.png"))); // NOI18N
+        P7supprimer.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                P7supprimerActionPerformed(evt);
+            }
+        });
+        jPanel7.add(P7supprimer, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 250, 90, 40));
+
+        jTabbedPane3.addTab("Supprimer Modèles", jPanel7);
+
+        jPanel6.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+
+        jLabel3.setText("Choisissez la tranche d'age :");
+        jPanel6.add(jLabel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 10, -1, -1));
+
+        P6tranche.setModel(new javax.swing.DefaultComboBoxModel(new String[] { }));
+        P6tranche.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                P6trancheActionPerformed(evt);
+            }
+        });
+        jPanel6.add(P6tranche, new org.netbeans.lib.awtextra.AbsoluteConstraints(184, 7, 140, -1));
+
+        Comborepas.setModel(new javax.swing.DefaultComboBoxModel(new String[] {  }));
+        jPanel6.add(Comborepas, new org.netbeans.lib.awtextra.AbsoluteConstraints(185, 48, 140, -1));
+
+        jLabel4.setText("Choississez le repas :");
+        jPanel6.add(jLabel4, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 51, -1, -1));
+
+        jLabel5.setText("Veuillez remplir le modèle menu :");
+        jPanel6.add(jLabel5, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 90, -1, -1));
+
+        jButton1.setText("Ajouter");
+        jButton1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton1ActionPerformed(evt);
+            }
+        });
+        jPanel6.add(jButton1, new org.netbeans.lib.awtextra.AbsoluteConstraints(550, 290, -1, -1));
+
+        jButton2.setText("Vider");
+        jButton2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton2ActionPerformed(evt);
+            }
+        });
+        jPanel6.add(jButton2, new org.netbeans.lib.awtextra.AbsoluteConstraints(460, 290, -1, -1));
+
+        jLabel6.setText("Aliment");
+        jPanel6.add(jLabel6, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 140, -1, -1));
+
+        jLabel7.setText("Poids(g)/Mesure(ml)");
+        jPanel6.add(jLabel7, new org.netbeans.lib.awtextra.AbsoluteConstraints(110, 140, -1, -1));
+
+        jLabel8.setText("Lipide");
+        jPanel6.add(jLabel8, new org.netbeans.lib.awtextra.AbsoluteConstraints(250, 140, -1, -1));
+
+        jLabel9.setText("Glucide");
+        jPanel6.add(jLabel9, new org.netbeans.lib.awtextra.AbsoluteConstraints(330, 140, -1, -1));
+
+        jLabel11.setText("Protéine");
+        jPanel6.add(jLabel11, new org.netbeans.lib.awtextra.AbsoluteConstraints(420, 140, -1, -1));
+
+        jLabel12.setText("Calorie");
+        jPanel6.add(jLabel12, new org.netbeans.lib.awtextra.AbsoluteConstraints(540, 140, -1, -1));
+        jPanel6.add(calorie, new org.netbeans.lib.awtextra.AbsoluteConstraints(530, 170, 60, -1));
+        jPanel6.add(alimentnom, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 170, 80, -1));
+        jPanel6.add(poids, new org.netbeans.lib.awtextra.AbsoluteConstraints(110, 170, 100, -1));
+        jPanel6.add(lipide, new org.netbeans.lib.awtextra.AbsoluteConstraints(240, 170, 50, -1));
+        jPanel6.add(glucide, new org.netbeans.lib.awtextra.AbsoluteConstraints(320, 170, 60, -1));
+        jPanel6.add(proteine, new org.netbeans.lib.awtextra.AbsoluteConstraints(410, 170, 60, -1));
+
+        jTabbedPane3.addTab("Ajouter Modèles", jPanel6);
+
+        jPanel5.add(jTabbedPane3, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 30, 780, 340));
+
+        jTabbedPane1.addTab("Gestion des modèles", jPanel5);
+
         getContentPane().add(jTabbedPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 42, 830, 400));
 
         bg.setIcon(new javax.swing.ImageIcon(getClass().getResource("/AppPackage/bgadmin.png"))); // NOI18N
@@ -236,44 +402,233 @@ public class EspaceAdmin extends javax.swing.JFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_jTabbedPane1MouseEntered
 
-    private void P3idActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_P3idActionPerformed
-         DAOSupprimerCompte dao = new DAOSupprimerCompte();
-         dao.afficherInfo(P3id, P3nom, P3prenom,P3desactiver,date);
-    }//GEN-LAST:event_P3idActionPerformed
+    private void P3id_utilActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_P3id_utilActionPerformed
+        DAOSupprimerCompte dao = new DAOSupprimerCompte();
+        Object id = P3id_util.getSelectedItem();
+        if (P3id_util.getSelectedIndex() == 0) {
+            P3nom.setText("Nom");
+            P3prenom.setText("Prénom");
+            P3desactiver.setText("Désactiver Par :");
+            P3desactiver.disable();
+            date.setText("Désactiver Le : ");
+            date.disable();
+
+        } else {
+            Utilisateur util = dao.afficherInfo(id);
+            P3nom.setText(util.getNom_util());
+            P3prenom.setText(util.getPrenom_util());
+            Date d1 = util.getDate_desactivation();
+            date.setText("Désactiver Le : " + d1);
+            date.enable();
+            if (util.getEtat_util() == 1) {
+                P3desactiver.setText("Désactiver Par : Vous ");
+                P3desactiver.enable();
+            } else {
+                P3desactiver.setText("Désactiver Par : " + util.getPrenom_util());
+                P3desactiver.enable();
+
+            }
+        }
+    }//GEN-LAST:event_P3id_utilActionPerformed
 
     private void P3ParentActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_P3ParentActionPerformed
-        
-        if (P3Parent.isSelected()) {
-            DAOSupprimerCompte dao = new DAOSupprimerCompte();
-            dao.afficherIdParent(dao.GetIdParent(), P3id);
+
+        DAOSupprimerCompte dao = new DAOSupprimerCompte();
+        P3id_util.removeAllItems();
+
+        P3id_util.addItem("-------------Choisir Utilisateur-------------");
+        for (int i = 0; i < dao.GetIdParent().size(); i++) {
+            P3id_util.addItem(dao.GetIdParent().get(i).getId_util());
+
         }
 
     }//GEN-LAST:event_P3ParentActionPerformed
 
     private void P3PediatreActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_P3PediatreActionPerformed
-     if (P3Pediatre.isSelected()) {
-            DAOSupprimerCompte dao = new DAOSupprimerCompte();
-            dao.afficherIdPediatre(dao.GetIdPediatre(), P3id);
+
+        DAOSupprimerCompte dao = new DAOSupprimerCompte();
+        P3id_util.removeAllItems();
+
+        P3id_util.addItem("-------------Choisir Utilisateur-------------");
+        for (int i = 0; i < dao.GetIdPediatre().size(); i++) {
+            P3id_util.addItem(dao.GetIdPediatre().get(i).getId_util());
+
         }
     }//GEN-LAST:event_P3PediatreActionPerformed
 
-    private void P3idMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_P3idMouseClicked
+    private void P3id_utilMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_P3id_utilMouseClicked
         // TODO add your handling code here:
-        
-    }//GEN-LAST:event_P3idMouseClicked
+    }//GEN-LAST:event_P3id_utilMouseClicked
 
     private void P3supprimerActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_P3supprimerActionPerformed
-        
-        DAOSupprimerCompte dao= new DAOSupprimerCompte();
-        dao.SupprimerUtilisateur(P3Parent, P3Pediatre, P3id);
+
+        DAOSupprimerCompte dao = new DAOSupprimerCompte();
+
+        if (P3Parent.isSelected() == false && P3Pediatre.isSelected() == false) {
+            JOptionPane.showMessageDialog(new JFrame(), "Choisir un utilisateur", "Warning", JOptionPane.WARNING_MESSAGE);
+
+        } else if (P3id_util.getSelectedIndex() == 0) {
+            JOptionPane.showMessageDialog(new JFrame(), "Sélectionner un utilisateur", "Warning", JOptionPane.WARNING_MESSAGE);
+
+        } else {
+
+            Object ident = P3id_util.getSelectedItem();
+            dao.SupprimerUtilisateur(ident);
+            JOptionPane.showMessageDialog(new JFrame(), "L'utilisateur a été supprimer avec succèe", "Succèe", JOptionPane.CLOSED_OPTION);
+
+        }
+
     }//GEN-LAST:event_P3supprimerActionPerformed
 
     private void messageMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_messageMouseClicked
-           
-        ConfirmationInscriptionPediatre c= new ConfirmationInscriptionPediatre();
+
+        ConfirmationInscriptionPediatre c = new ConfirmationInscriptionPediatre();
         c.setVisible(true);
-        
+
     }//GEN-LAST:event_messageMouseClicked
+
+    private void formWindowOpened(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowOpened
+
+        DAOSupprimerModele dao = new DAOSupprimerModele();
+        P7combo.removeAllItems();
+        P7combo.addItem("Choisir Catégorie");
+        for (int i = 0; i < dao.ListeCategorie().size(); i++) {
+
+            P7combo.addItem(dao.ListeCategorie().get(i).getIntervalle_age());
+        }
+
+        DAOAjoutermodele dao1 = new DAOAjoutermodele();
+       // P6tranche.removeAllItems();
+        for (int i = 0; i < dao1.ListeCategorie().size(); i++) {
+
+            P6tranche.addItem(dao1.ListeCategorie().get(i).getIntervalle_age());
+            
+        }
+        for (int i = 0; i < dao1.ListeRepas().size(); i++) {
+
+            Comborepas.addItem(dao1.ListeRepas().get(i).getNom_repas());
+            
+        }
+        
+
+    }//GEN-LAST:event_formWindowOpened
+
+    private void P7supprimerActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_P7supprimerActionPerformed
+        int x = P7tableau.getSelectedRow();
+        int y = P7tableau.getSelectedColumn();
+        Object z = P7tableau.getValueAt(x, y);
+//        if (P7tableau.isRowSelected(0)) {
+//            JOptionPane.showMessageDialog(new JFrame(), "Sélectionner tout les champs", "Succèe", JOptionPane.CLOSED_OPTION);
+//
+//        } else {
+        DAOSupprimerModele dao = new DAOSupprimerModele();
+        dao.GetLineToDelete(z);
+        JOptionPane.showMessageDialog(new JFrame(), "Le modèle a été supprimer avec succèe", "Succèe", JOptionPane.CLOSED_OPTION);
+
+        Object combobox = P7combo.getSelectedItem();
+        List<GroupeObjet> list = new ArrayList<GroupeObjet>();
+        list = dao.AfficherModele(combobox);
+        String[] colName = new String[]{
+            "Id Modèle", "Nom Repas", "Nom Aliment", "Poids", "Calorie", "Lipide", "Glucide", "Proteine"
+        };
+
+        DefaultTableModel model = new DefaultTableModel(colName, 1);
+
+        P7tableau.setModel(model);
+
+        int j = 0;
+
+        for (int i = 0; i < list.size(); i++) {
+
+            model.addRow(new Object[]{"", "", "", "", ""});
+
+            P7tableau.getModel().setValueAt(list.get(i).getId_modele(), i, j);
+            P7tableau.getModel().setValueAt(list.get(i).getNom_repas(), i, j + 1);
+            P7tableau.getModel().setValueAt(list.get(i).getNom_aliment(), i, j + 2);
+            P7tableau.getModel().setValueAt(list.get(i).getPoids(), i, j + 3);
+            P7tableau.getModel().setValueAt(list.get(i).getCalorie(), i, j + 4);
+            P7tableau.getModel().setValueAt(list.get(i).getLipide(), i, j + 5);
+            P7tableau.getModel().setValueAt(list.get(i).getGlucide(), i, j + 6);
+            P7tableau.getModel().setValueAt(list.get(i).getProteine(), i, j + 7);
+
+        }
+        //}
+
+    }//GEN-LAST:event_P7supprimerActionPerformed
+
+    private void P7comboActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_P7comboActionPerformed
+
+        DAOSupprimerModele dao = new DAOSupprimerModele();
+        Object combobox = P7combo.getSelectedItem();
+        List<GroupeObjet> list = new ArrayList<GroupeObjet>();
+        list = dao.AfficherModele(combobox);
+        String[] colName = new String[]{
+            "Id Modèle", "Nom Repas", "Nom Aliment", "Poids", "Calorie", "Lipide", "Glucide", "Proteine"
+        };
+
+        DefaultTableModel model = new DefaultTableModel(colName, 1);
+
+        P7tableau.setModel(model);
+
+        int j = 0;
+
+//        for (int i = 0; i < list.size(); i++) {
+//
+//            model.addRow(new Object[]{"", "", "", "", ""});
+//
+//            P7tableau.getModel().setValueAt(list.get(i).getId_modele(), i, j);
+//            P7tableau.getModel().setValueAt(list.get(i).getNom_repas(), i, j + 1);
+//            P7tableau.getModel().setValueAt(list.get(i).getNom_aliment(), i, j + 2);
+//            P7tableau.getModel().setValueAt(list.get(i).getPoids(), i, j + 3);
+//            P7tableau.getModel().setValueAt(list.get(i).getCalorie(), i, j + 4);
+//            P7tableau.getModel().setValueAt(list.get(i).getLipide(), i, j + 5);
+//            P7tableau.getModel().setValueAt(list.get(i).getGlucide(), i, j + 6);
+//            P7tableau.getModel().setValueAt(list.get(i).getProteine(), i, j + 7);
+//
+//        }
+    }//GEN-LAST:event_P7comboActionPerformed
+
+    private void P7tableauMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_P7tableauMouseClicked
+
+    }//GEN-LAST:event_P7tableauMouseClicked
+
+    private void P6trancheActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_P6trancheActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_P6trancheActionPerformed
+
+    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+
+        DAOAjoutermodele dao = new DAOAjoutermodele();
+        String nomAliment=alimentnom.getText();
+        Double Poids=Double.parseDouble(poids.getText());
+        int Calorie=Integer.parseInt(calorie.getText());
+        Modele_Aliment aliment= new Modele_Aliment();
+        aliment.setCalorie(Calorie);
+        aliment.setNom_aliment(nomAliment);
+        aliment.setPoids(Poids);
+        dao.ajouterAliment(aliment);
+        
+        Object interv=P6tranche.getSelectedItem();
+        int id_cat=dao.idCategorie(interv).getId_categorie();
+        Object repas=Comborepas.getSelectedItem();
+        int id_repas=dao.idRepas(repas).getId_repas();
+        dao.Ajouter_categorie_modele_repas(id_cat,id_repas);
+        
+        Object id_aliment=alimentnom.getText();
+        int id_al=dao.idAliment(id_aliment).getId_aliment();
+        dao.Ajouter_modele_aliment_modele_repas(id_al, id_repas);
+        
+        int lip=Integer.parseInt(lipide.getText());
+        int glu=Integer.parseInt(glucide.getText());
+        int prot=Integer.parseInt(proteine.getText());
+        dao.ajouterComposition(lip, glu, prot, id_al);
+  
+
+    }//GEN-LAST:event_jButton1ActionPerformed
+
+    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jButton2ActionPerformed
 
     /**
      * @param args the command line arguments
@@ -306,32 +661,59 @@ public class EspaceAdmin extends javax.swing.JFrame {
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
                 new EspaceAdmin().setVisible(true);
-                
+
             }
         });
     }
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JComboBox Comborepas;
     private javax.swing.JLabel P1NomPrenom;
     private javax.swing.JRadioButton P3Parent;
     private javax.swing.JRadioButton P3Pediatre;
     private javax.swing.JLabel P3desactiver;
-    private javax.swing.JComboBox P3id;
+    private javax.swing.JComboBox P3id_util;
     private javax.swing.JTextField P3nom;
     private javax.swing.JTextField P3prenom;
     private javax.swing.JButton P3supprimer;
+    private javax.swing.JComboBox P6tranche;
+    private javax.swing.JComboBox P7combo;
+    private javax.swing.JButton P7supprimer;
+    private javax.swing.JTable P7tableau;
+    private javax.swing.JTextField alimentnom;
     private javax.swing.JLabel bg;
     private javax.swing.ButtonGroup buttonGroup1;
+    private javax.swing.JTextField calorie;
     private javax.swing.JLabel date;
+    private javax.swing.JTextField glucide;
+    private javax.swing.JButton jButton1;
+    private javax.swing.JButton jButton2;
     private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel jLabel11;
+    private javax.swing.JLabel jLabel12;
     private javax.swing.JLabel jLabel2;
+    private javax.swing.JLabel jLabel3;
+    private javax.swing.JLabel jLabel4;
+    private javax.swing.JLabel jLabel5;
+    private javax.swing.JLabel jLabel6;
+    private javax.swing.JLabel jLabel7;
+    private javax.swing.JLabel jLabel8;
+    private javax.swing.JLabel jLabel9;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel3;
     private javax.swing.JPanel jPanel4;
+    private javax.swing.JPanel jPanel5;
+    private javax.swing.JPanel jPanel6;
+    private javax.swing.JPanel jPanel7;
+    private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JTabbedPane jTabbedPane1;
     private javax.swing.JTabbedPane jTabbedPane2;
+    private javax.swing.JTabbedPane jTabbedPane3;
+    private javax.swing.JTextField lipide;
     private javax.swing.JLabel message;
     private javax.swing.JLabel out;
+    private javax.swing.JTextField poids;
+    private javax.swing.JTextField proteine;
     private javax.swing.JLabel setting;
     // End of variables declaration//GEN-END:variables
 }

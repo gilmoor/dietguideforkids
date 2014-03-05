@@ -6,16 +6,15 @@ package edu.esprit.entities;
 
 /**
  *
- * @author sahli
+ * @author AvBack
  */
-public class Repas {
-    private int id_repas;
-    private  String nom_repas ;
-    private int id_menu;
-public Repas (){
-
+public class Modele_Repas {
     
-}       
+    private int id_repas ;
+    private String nom_repas ;
+
+    public Modele_Repas() {
+    }
 
     public int getId_repas() {
         return id_repas;
@@ -33,23 +32,10 @@ public Repas (){
         this.nom_repas = nom_repas;
     }
 
-    public int getId_menu() {
-        return id_menu;
-    }
-
-    public void setId_menu(int id_menu) {
-        this.id_menu = id_menu;
-    }
-
-    @Override
-    public String toString() {
-        return "Repas{" + "id=" + id_repas + ", nom repas=" + nom_repas + ", id menu=" + id_menu + '}';
-    }
-
     @Override
     public int hashCode() {
-        int hash = 5;
-        hash = 43 * hash + this.id_repas;
+        int hash = 3;
+        hash = 47 * hash + this.id_repas;
         return hash;
     }
 
@@ -61,13 +47,18 @@ public Repas (){
         if (getClass() != obj.getClass()) {
             return false;
         }
-        final Repas other = (Repas) obj;
+        final Modele_Repas other = (Modele_Repas) obj;
         if (this.id_repas != other.id_repas) {
             return false;
         }
         return true;
     }
+
+    @Override
+    public String toString() {
+        return "Modele_Repas{" + "id_repas=" + id_repas + ", nom_repas=" + nom_repas + '}';
+    }
+    
     
     
 }
-

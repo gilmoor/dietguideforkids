@@ -5,6 +5,7 @@
 package AppPackage;
 
 import edu.esprit.dao.DAOAuthentification;
+import static edu.esprit.dao.DAOAuthentification.NomPrenom;
 import edu.esprit.entities.Administrateur;
 import edu.esprit.util.Connexion;
 import java.awt.Dimension;
@@ -142,8 +143,25 @@ public class gui extends javax.swing.JFrame {
         // TODO add your handling code here:
         String identfiant = id.getText();
         String pass = pwd.getText();
-        DAOAuthentification auth= new DAOAuthentification();
-        auth.verifier(this, identfiant, pass);
+        if (identfiant.equals("") || pass.equals("")) {
+            JOptionPane.showMessageDialog(new JFrame(), "Saisir tous les champs", "Warning", JOptionPane.WARNING_MESSAGE);
+
+        } else {
+
+            DAOAuthentification dao = new DAOAuthentification();
+
+            if (dao.verifier(identfiant, pass)) {
+
+                new EspaceAdmin().setVisible(true);
+                this.setVisible(false);
+                
+            } else {
+
+                JOptionPane.showMessageDialog(new JFrame(), "L'identifiant ou le mot de passe est incorrecte", "Warning", JOptionPane.WARNING_MESSAGE);
+
+            }
+        }
+
 
     }//GEN-LAST:event_okActionPerformed
 
@@ -151,7 +169,7 @@ public class gui extends javax.swing.JFrame {
         // TODO add your handling code here:
         pwd.setText("");
         id.setText("");
-  
+
     }//GEN-LAST:event_jButton1ActionPerformed
 
     /**
